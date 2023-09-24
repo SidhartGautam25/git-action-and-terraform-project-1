@@ -62,7 +62,7 @@ jobs:
                 container-name: ${{env.CONTAINER_NAME }}
                 image: ${{ steps.build-image.outputs.image }}
 
-            - name: deploying amazon ecs task defination
+            - name: deploying amazon ecs task defination with right user
               uses:  aws-actions/amazon-ecs-deploy-task-definition@v1
               with:
                 task-definition: ${{ steps.task-def-1.outputs.task-definition}}
