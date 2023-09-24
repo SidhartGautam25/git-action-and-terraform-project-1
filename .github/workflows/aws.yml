@@ -9,6 +9,9 @@ env:
     CONTAINER_NAME: node-app
     ECS_SERVICE: app_service
     ECS_TD: ./github/workflows/td.json
+    ECR_REGISTRY: "143096200225.dkr.ecr.us-east-2.amazonaws.com"
+    ECR_REPOSITORY: "node-app"
+    IMAGE_TAG: latest
     
 jobs:
     deploy:
@@ -39,16 +42,17 @@ jobs:
               uses: docker/setup-buildx-action@v3
 
 
-            - name: building my image and pusing it to ecr
+            - name: building my image 
+              id: build-docker-image
+              run:  docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+
+            - name: pusing my image to ecr
+              id: push-image
+              run: docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+            - name: getting outputs
               id: build-image
-              env:
-                ECR_REGISTRY: "143096200225.dkr.ecr.us-east-2.amazonaws.com"
-                ECR_REPOSITORY: "node-app"
-                IMAGE_TAG: latest
-              run:
-                docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-                docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-                echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+              run: echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
             - name: filling new image id
               id: task-def-1
