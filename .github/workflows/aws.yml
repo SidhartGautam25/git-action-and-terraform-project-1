@@ -32,6 +32,13 @@ jobs:
               uses: aws-actions/amazon-ecr-login@v1
 
 
+            - name: Set up QEMU
+              uses: docker/setup-qemu-action@v3
+            
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+
+
             - name: building my image and pusing it to ecr
               id: build-image
               env:
