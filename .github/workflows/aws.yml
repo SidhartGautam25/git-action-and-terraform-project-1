@@ -8,7 +8,7 @@ env:
     ECS_CLUSTER: app_cluster
     CONTAINER_NAME: node-app
     ECS_SERVICE: app_service
-    ECS_TD: ./github/workflows/td.json
+    ECS_TD: ./td.json
     ECR_REGISTRY: "143096200225.dkr.ecr.us-east-2.amazonaws.com"
     ECR_REPOSITORY: "node-app"
     IMAGE_TAG: latest
